@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: placeholder-image-name
+    container_name: placeholder-app-container
+    environment:
+      DJANGO_SECRET_KEY: "REPLACE_ME"
+      DJANGO_DEBUG: "False"
+      DJANGO_ALLOWED_HOSTS: "REPLACE_ME"
+      DB_ENGINE: "REPLACE_ME"
+      DB_NAME: "REPLACE_ME"
+      DB_USER: "REPLACE_ME"
+      DB_PASSWORD: "REPLACE_ME"
+      DB_HOST: "REPLACE_ME"
+      DB_PORT: "REPLACE_ME"
+    ports:
+      - "REPLACE_ME"
+    depends_on:
+      - database
+    volumes:
+      - type: volume
+        source: app-data
+        target: /app
+    networks:
+      - app-network
+    # TODO: Add production-ready service configuration, health checks, and runtime settings.
+
+  database:
+    image: mysql:8.0
+    container_name: placeholder-database-container
+    environment:
+      MYSQL_DATABASE: "REPLACE_ME"
+      MYSQL_USER: "REPLACE_ME"
+      MYSQL_PASSWORD: "REPLACE_ME"
+      MYSQL_ROOT_PASSWORD: "REPLACE_ME"
+    volumes:
+      - database-data:/var/lib/mysql
+    networks:
+      - app-network
+    # TODO: Define persistence, credentials, and service exposure for the target environment.
+
+volumes:
+  app-data:
+    driver: local
+  database-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
+    # TODO: Add environment-specific network configuration if required.
