@@ -1,55 +1,65 @@
-version: "3.9"
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: placeholder-image-name
-    container_name: placeholder-app-container
+    image: employee-management-system:v1
+    container_name: employee-app
+
+    restart: unless-stopped
+
     environment:
-      DJANGO_SECRET_KEY: "REPLACE_ME"
+      DJANGO_SECRET_KEY: "change-this-secret-key"
       DJANGO_DEBUG: "False"
-      DJANGO_ALLOWED_HOSTS: "REPLACE_ME"
-      DB_ENGINE: "REPLACE_ME"
-      DB_NAME: "REPLACE_ME"
-      DB_USER: "REPLACE_ME"
-      DB_PASSWORD: "REPLACE_ME"
-      DB_HOST: "REPLACE_ME"
-      DB_PORT: "REPLACE_ME"
+      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,65.0.81.145"
+
+      DB_ENGINE: "django.db.backends.mysql"
+      DB_NAME: "emsdb"
+      DB_USER: "emsuser"
+      DB_PASSWORD: "emspassword"
+      DB_HOST: "database"
+      DB_PORT: "3306"
+
     ports:
-      - "REPLACE_ME"
+      - "8000:8000"
+
     depends_on:
       - database
+
     volumes:
-      - type: volume
-        source: app-data
-        target: /app
+      - app-data:/app
+
     networks:
       - app-network
-    # TODO: Add production-ready service configuration, health checks, and runtime settings.
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/hello/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   database:
     image: mysql:8.0
-    container_name: placeholder-database-container
+    container_name: mysql-db
+
+    restart: unless-stopped
+
     environment:
-      MYSQL_DATABASE: "REPLACE_ME"
-      MYSQL_USER: "REPLACE_ME"
-      MYSQL_PASSWORD: "REPLACE_ME"
-      MYSQL_ROOT_PASSWORD: "REPLACE_ME"
+      MYSQL_DATABASE: emsdb
+      MYSQL_USER: emsuser
+      MYSQL_PASSWORD: emspassword
+      MYSQL_ROOT_PASSWORD: rootpassword
+
     volumes:
       - database-data:/var/lib/mysql
+
     networks:
       - app-network
-    # TODO: Define persistence, credentials, and service exposure for the target environment.
 
 volumes:
   app-data:
-    driver: local
   database-data:
-    driver: local
 
 networks:
   app-network:
     driver: bridge
-    # TODO: Add environment-specific network configuration if required.
