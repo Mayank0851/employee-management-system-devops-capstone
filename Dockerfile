@@ -34,7 +34,7 @@ ENV PYTHONUNBUFFERED=1 \
     PATH="/opt/venv/bin:$PATH"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq5 \
+    default-mysql-client \
     curl \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
