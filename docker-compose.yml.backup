@@ -15,9 +15,9 @@ services:
 
       DB_ENGINE: "django.db.backends.mysql"
       DB_NAME: "emsdb"
-      DB_USER: "admin"
-      DB_PASSWORD: "nikhildubey123456"
-      DB_HOST: "ems-mysql-db.cxgwqwygke5p.ap-south-1.rds.amazonaws.com"
+      DB_USER: "emsuser"
+      DB_PASSWORD: "emspassword"
+      DB_HOST: "database"
       DB_PORT: "3306"
 
     ports:
