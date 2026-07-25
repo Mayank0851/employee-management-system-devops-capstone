@@ -1,47 +1,37 @@
-version: "3.9"
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: placeholder-image-name
-    container_name: placeholder-app-container
-    environment:
-      DJANGO_SECRET_KEY: "REPLACE_ME"
-      DJANGO_DEBUG: "False"
-      DJANGO_ALLOWED_HOSTS: "REPLACE_ME"
-      DB_ENGINE: "REPLACE_ME"
-      DB_NAME: "REPLACE_ME"
-      DB_USER: "REPLACE_ME"
-      DB_PASSWORD: "REPLACE_ME"
-      DB_HOST: "REPLACE_ME"
-      DB_PORT: "REPLACE_ME"
+    image: ems-app:local
+    container_name: ems-app
+    env_file:
+      - .env
     ports:
-      - "REPLACE_ME"
+      - "8000:8000"
     depends_on:
       - database
     volumes:
-      - type: volume
-        source: app-data
-        target: /app
+      - app-data:/usr/src/app
     networks:
       - app-network
-    # TODO: Add production-ready service configuration, health checks, and runtime settings.
+    restart: unless-stopped
 
   database:
     image: mysql:8.0
-    container_name: placeholder-database-container
+    container_name: ems-database
+    env_file:
+      - .env
     environment:
-      MYSQL_DATABASE: "REPLACE_ME"
-      MYSQL_USER: "REPLACE_ME"
-      MYSQL_PASSWORD: "REPLACE_ME"
-      MYSQL_ROOT_PASSWORD: "REPLACE_ME"
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - database-data:/var/lib/mysql
     networks:
       - app-network
-    # TODO: Define persistence, credentials, and service exposure for the target environment.
+    restart: unless-stopped
 
 volumes:
   app-data:
@@ -52,4 +42,3 @@ volumes:
 networks:
   app-network:
     driver: bridge
-    # TODO: Add environment-specific network configuration if required.
