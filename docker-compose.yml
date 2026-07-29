@@ -11,7 +11,7 @@ services:
     environment:
       DJANGO_SECRET_KEY: "change-this-secret-key"
       DJANGO_DEBUG: "False"
-      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,13.201.50.137"
+      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,13.235.94.189"
 
       DB_ENGINE: "django.db.backends.mysql"
       DB_NAME: "emsdb"
