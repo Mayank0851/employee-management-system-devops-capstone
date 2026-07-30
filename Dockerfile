@@ -15,8 +15,7 @@ ENV PYTHONUNBUFFERED=1 \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    default-libmysqlclient-dev \
-    pkg-config \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python -m venv /opt/venv
@@ -34,8 +33,7 @@ ENV PYTHONUNBUFFERED=1 \
     PATH="/opt/venv/bin:$PATH"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    default-mysql-client \
-    libmariadb3 \
+    libpq5 \
     curl \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
@@ -64,4 +62,3 @@ EXPOSE 8000
 
 # Production WSGI entry point.
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120", "--access-logfile", "-", "--error-logfile", "-", "employee_management_system.wsgi:application"]
-
