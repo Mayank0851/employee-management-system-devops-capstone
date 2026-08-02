@@ -51,3 +51,17 @@ The application provides a simple Django endpoint and serves as the foundation f
 This repository is intended to be reviewed as a handover package. Students are expected to improve the repository for operational readiness, document responsibilities clearly, and prepare supporting assets in a professional manner.
 
 The documentation in this repository is intentionally designed to guide the reader without providing direct implementation solutions.
+
+## CI/CD Pipeline Notes
+
+The GitHub Actions workflow (`.github/workflows/ci.yml`) implements a complete
+CI/CD pipeline: checkout → AWS authentication → Docker build → push to ECR →
+deploy to ECS Fargate.
+
+This pipeline is fully tested and verified working end-to-end on my own AWS
+account (see Actions tab on this repo for a successful run). The team repo
+this project was based on already has separate CI/CD credentials configured
+for a different, shared AWS account owned by another teammate. To avoid
+deploying into shared infrastructure without authorization, the workflow
+includes a repository check (`if: github.repository == '...'`) so it only
+executes against my own AWS resources.
