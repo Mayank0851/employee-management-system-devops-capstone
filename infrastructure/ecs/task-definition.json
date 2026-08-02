@@ -16,16 +16,18 @@
         }
       ],
       "environment": [
-        { "name": "DJANGO_SECRET_KEY", "value": "dev-secret-key-change-in-production" },
-        { "name": "DJANGO_DEBUG", "value": "False" },
-        { "name": "DJANGO_ALLOWED_HOSTS", "value": "*" },
-        { "name": "DB_ENGINE", "value": "django.db.backends.mysql" },
-        { "name": "DB_NAME", "value": "ems_db" },
-        { "name": "DB_USER", "value": "admin" },
-        { "name": "DB_PASSWORD", "value": "EmsSecure2026Pass" },
-        { "name": "DB_HOST", "value": "ems-mysql-db.chgmm4c24zkc.ap-south-1.rds.amazonaws.com" },
-        { "name": "DB_PORT", "value": "3306" }
-      ],
+  { "name": "DJANGO_SECRET_KEY", "value": "dev-secret-key-change-in-production" },
+  { "name": "DJANGO_DEBUG", "value": "False" },
+  { "name": "DJANGO_ALLOWED_HOSTS", "value": "*" },
+  { "name": "DB_ENGINE", "value": "django.db.backends.mysql" },
+  { "name": "DB_NAME", "value": "ems_db" },
+  { "name": "DB_HOST", "value": "ems-mysql-db.chgmm4c24zkc.ap-south-1.rds.amazonaws.com" },
+  { "name": "DB_PORT", "value": "3306" }
+],
+"secrets": [
+  { "name": "DB_USER", "valueFrom": "arn:aws:secretsmanager:ap-south-1:074259075025:secret:ems/db-credentials-RV1ue8:DB_USER::" },
+  { "name": "DB_PASSWORD", "valueFrom": "arn:aws:secretsmanager:ap-south-1:074259075025:secret:ems/db-credentials-RV1ue8:DB_PASSWORD::" }
+],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
