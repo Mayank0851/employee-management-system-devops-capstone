@@ -49,6 +49,9 @@ jobs:
           aws ecs describe-task-definition --task-definition $ECS_TASK_DEFINITION_FAMILY \
             --query taskDefinition > task-definition-ci.json
 
+      - name: Debug - show downloaded task definition
+        run: cat task-definition-ci.json
+
       - name: Fill in new image ID
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
