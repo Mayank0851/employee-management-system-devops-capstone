@@ -22,3 +22,14 @@ Use this area for:
 | NAT Gateway | ems-nat-gw | nat-0e115ac7053fff09b |
 | ALB Security Group | ems-alb-sg | sg-05000db1ca593bd08 |
 | ECS Security Group | ems-ecs-sg | sg-0afafb07ce1de7805 |
+## ECS/ALB Resources Created (Task 8)
+
+| Resource | ID/Name |
+|---|---|
+| ECS Cluster | ems-cluster |
+| ECS Service | ems-service |
+| Task Definition | ems-task:1 |
+| Application Load Balancer | ems-alb |
+| ALB DNS | ems-alb-428908553.ap-south-1.elb.amazonaws.com |
+| Target Group | ems-tg |
+| **Live URL** | http://ems-alb-428908553.ap-south-1.elb.amazonaws.com/hello/ |
