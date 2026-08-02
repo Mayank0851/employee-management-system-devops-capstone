@@ -16,11 +16,12 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    if: github.repository == 'cloudwithkanak/employee-management-system-devops-capstone'
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
