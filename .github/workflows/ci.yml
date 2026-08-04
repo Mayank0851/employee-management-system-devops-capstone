@@ -4,50 +4,39 @@ on:
   workflow_dispatch:
 
 jobs:
-  checkout:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
-        run: echo "TODO: Implement checkout step"
+        uses: actions/checkout@v4
 
-  setup-python:
-    needs: checkout
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Python Environment
-        run: echo "TODO: Implement Python setup step"
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-  install-dependencies:
-    needs: setup-python
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Dependencies
-        run: echo "TODO: Implement dependency installation step"
-
-  docker-build:
-    needs: install-dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build Docker Image
-        run: echo "TODO: Implement Docker build step"
-
-  ecr-login:
-    needs: docker-build
-    runs-on: ubuntu-latest
-    steps:
       - name: Login to Amazon ECR
-        run: echo "TODO: Implement Amazon ECR login step"
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-  docker-push:
-    needs: ecr-login
-    runs-on: ubuntu-latest
-    steps:
+      - name: Build Docker Image
+        run: |
+          docker build -t employee-management-system:v1 .
+
+      - name: Tag Docker Image
+        run: |
+          docker tag employee-management-system:v1 233569936525.dkr.ecr.ap-south-1.amazonaws.com/employee-management-system:v1
+
       - name: Push Docker Image
-        run: echo "TODO: Implement Docker push step"
+        run: |
+          docker push 233569936525.dkr.ecr.ap-south-1.amazonaws.com/employee-management-system:v1
 
-  ecs-deploy:
-    needs: docker-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Amazon ECS
-        run: echo "TODO: Implement ECS deployment step"
+      - name: Force ECS Deployment
+        run: |
+          aws ecs update-service \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --service ${{ secrets.ECS_SERVICE }} \
+            --force-new-deployment

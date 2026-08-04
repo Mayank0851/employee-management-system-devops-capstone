@@ -9,16 +9,17 @@ services:
     restart: unless-stopped
 
     environment:
-      DJANGO_SECRET_KEY: "change-this-secret-key"
-      DJANGO_DEBUG: "False"
-      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,13.235.94.189"
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DJANGO_DEBUG: ${DJANGO_DEBUG}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
 
-      DB_ENGINE: "django.db.backends.mysql"
-      DB_NAME: "emsdb"
-      DB_USER: "admin"
-      DB_PASSWORD: "nikhildubey123456"
-      DB_HOST: "ems-mysql-db.cxgwqwygke5p.ap-south-1.rds.amazonaws.com"
-      DB_PORT: "3306"
+      DB_ENGINE: ${DB_ENGINE}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+
 
     ports:
       - "8000:8000"
