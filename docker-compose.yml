@@ -1,35 +1,27 @@
-version: "3.9"
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ems-app:latest
-    container_name: ems_app_container
-    environment:
-      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-      DJANGO_DEBUG: ${DJANGO_DEBUG}
-      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
-      DB_ENGINE: django.db.backends.mysql
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_HOST: database
-      DB_PORT: "3306"
+    image: ems-app:local
+    container_name: ems-app
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     depends_on:
       - database
     volumes:
-      - type: volume
-        source: app-data
-        target: /usr/src/app/staticfiles
+      - app-data:/usr/src/app
     networks:
       - app-network
+    restart: unless-stopped
+
   database:
     image: mysql:8.0
-    container_name: ems_database_container
-    restart: always
+    container_name: ems-database
+    env_file:
+      - .env
     environment:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
@@ -41,11 +33,14 @@ services:
       - database-data:/var/lib/mysql
     networks:
       - app-network
+    restart: unless-stopped
+
 volumes:
   app-data:
     driver: local
   database-data:
     driver: local
+
 networks:
   app-network:
     driver: bridge
