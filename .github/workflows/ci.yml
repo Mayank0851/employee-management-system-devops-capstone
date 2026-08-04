@@ -1,6 +1,9 @@
 name: DevOps Capstone Workflow
 
 on:
+  push:
+    branches:
+      - nikhil-devops-capstone
   workflow_dispatch:
 
 jobs:
