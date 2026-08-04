@@ -31,11 +31,13 @@ jobs:
 
       - name: Tag Docker Image
         run: |
-          docker tag employee-management-system:v1 233569936525.dkr.ecr.ap-south-1.amazonaws.com/employee-management-system:v1
+          docker tag employee-management-system:v1 \
+          ${{ steps.login-ecr.outputs.registry }}/employee-management-system:v1
 
       - name: Push Docker Image
         run: |
-          docker push 233569936525.dkr.ecr.ap-south-1.amazonaws.com/employee-management-system:v1
+          docker push \
+          ${{ steps.login-ecr.outputs.registry }}/employee-management-system:v1
 
       - name: Force ECS Deployment
         run: |
