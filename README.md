@@ -51,3 +51,23 @@ The application provides a simple Django endpoint and serves as the foundation f
 This repository is intended to be reviewed as a handover package. Students are expected to improve the repository for operational readiness, document responsibilities clearly, and prepare supporting assets in a professional manner.
 
 The documentation in this repository is intentionally designed to guide the reader without providing direct implementation solutions.
+## AWS Services Used
+
+- Amazon ECR
+- Amazon ECS (Fargate)
+- CloudWatch Logs
+- IAM
+
+## Deployment Flow
+
+Docker Build
+↓
+Docker Image
+↓
+Push to Amazon ECR
+↓
+Create ECS Task Definition
+↓
+Deploy ECS Service (Fargate)
+↓
+Application Accessible via Public IP
